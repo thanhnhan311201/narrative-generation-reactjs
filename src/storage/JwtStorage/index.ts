@@ -5,10 +5,9 @@ import {
 } from '@/config/env';
 
 import { CookieJwtStorage } from './cookie-jtw-storage';
-import { IJwtStorage } from './@types';
 
 export class AccessTokenStorage extends CookieJwtStorage {
-	private static instance: IJwtStorage | null = null;
+	private static instance: AccessTokenStorage | null = null;
 
 	private constructor(tokenType: TOKEN_TYPE, expirationTime: number) {
 		super(tokenType, expirationTime);
@@ -27,20 +26,20 @@ export class AccessTokenStorage extends CookieJwtStorage {
 }
 
 export class RefreshTokenStorage extends CookieJwtStorage {
-	private static instance: RefreshTokenStorage;
+	private static instance: RefreshTokenStorage | null = null;
 
 	constructor(tokenType: TOKEN_TYPE, expirationTime: number) {
 		super(tokenType, expirationTime);
 	}
 
 	public static getInstance() {
-		if (this.instance === null) {
-			this.instance = new RefreshTokenStorage(
+		if (RefreshTokenStorage.instance === null) {
+			RefreshTokenStorage.instance = new RefreshTokenStorage(
 				TOKEN_TYPE.REFRESH_TOKEN,
 				REFRESH_TOKEN_EXPIRATION_TIME,
 			);
 		}
 
-		return this.instance;
+		return RefreshTokenStorage.instance;
 	}
 }

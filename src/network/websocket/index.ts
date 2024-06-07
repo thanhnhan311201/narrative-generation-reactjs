@@ -1,5 +1,7 @@
 import { SocketIoClient } from './socketIO';
 
+import { establishSocketListener } from '@/modules/gateway/gateway.controller';
+
 import { IWebsocketClient } from './@types';
 
 export class WebSocketClient implements IWebsocketClient {
@@ -7,6 +9,7 @@ export class WebSocketClient implements IWebsocketClient {
 	private static url: string | null = null;
 	private static token: string | null = null;
 	private client: IWebsocketClient;
+	private _clientId: string | null = null;
 
 	private constructor(client: IWebsocketClient) {
 		this.client = client;
@@ -15,6 +18,14 @@ export class WebSocketClient implements IWebsocketClient {
 	public static initialize(url: string, token: string): void {
 		WebSocketClient.url = url;
 		WebSocketClient.token = token;
+	}
+
+	public get clientId(): string | null {
+		return this._clientId;
+	}
+
+	public set clientId(newId: string) {
+		this._clientId = newId;
 	}
 
 	public static getInstance(): WebSocketClient {
@@ -37,6 +48,7 @@ export class WebSocketClient implements IWebsocketClient {
 
 	public connect(): void {
 		this.client.connect();
+		establishSocketListener(this.client);
 	}
 
 	public disconnect(): void {
@@ -44,6 +56,7 @@ export class WebSocketClient implements IWebsocketClient {
 	}
 
 	public on(event: string, callback: (...args: any[]) => void): void {
+		console.log('on');
 		this.client.on(event, callback);
 	}
 

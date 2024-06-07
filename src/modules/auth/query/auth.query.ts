@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 
 import axiosBaseQuery from '@/network/query';
 
-import { AuthService } from '../service';
+import { AuthService } from '../services';
 
 import type { SignUpRequestParam, SigninRequestParam } from '../@types';
 import type { SigninResponseParam, SignupResponseParam } from '../@types';

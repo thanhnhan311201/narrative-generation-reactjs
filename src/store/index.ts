@@ -12,6 +12,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import authReducer from '@/modules/auth/state/auth.slice';
 import userReducer from '@/modules/user/state/user.slice';
+import conversationReducer from '@/modules/conversation/state/conversation.slice';
 
 import { AuthQueryService, GoogleAuthQueryService } from '@/modules/auth/query';
 
@@ -23,6 +24,7 @@ const reducers = {
 	// main reducer
 	auth: authReducer,
 	user: userReducer,
+	conversation: conversationReducer,
 
 	// query service reducer
 	[AuthQueryService.reducerPath]: AuthQueryService.reducer,

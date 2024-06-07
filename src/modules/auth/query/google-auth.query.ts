@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 
 import axiosBaseQuery from '@/network/query';
 
-import { GoogleAuthService } from '../service';
+import { GoogleAuthService } from '../services';
 
 import type { SigninWithGoogleRequestParam } from '../@types';
 import type { SigninWithGoogleResponseParam } from '../@types';

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
@@ -11,14 +10,13 @@ import {
 	authenticating,
 	setAuthenticated,
 } from '../state/auth.slice';
-import { AuthService } from '../service';
+import { AuthService } from '../services';
 
 import { removeCredentialToken } from '../helpers';
 import { WEBSOCKET_URL } from '@/config/env';
 
 const useAutoSignin = () => {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 
 	return useCallback(async () => {
 		try {
@@ -35,7 +33,6 @@ const useAutoSignin = () => {
 				dispatch(setAuthenticated());
 				WebSocketClient.initialize(WEBSOCKET_URL, accessToken);
 				WebSocketClient.getInstance().connect();
-				navigate('/');
 			} else {
 				dispatch(setUnauthenticated());
 				removeCredentialToken();
@@ -45,7 +42,7 @@ const useAutoSignin = () => {
 			dispatch(setUnauthenticated());
 			removeCredentialToken();
 		}
-	}, [dispatch, navigate]);
+	}, [dispatch]);
 };
 
 export default useAutoSignin;
