@@ -13,13 +13,20 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import authReducer from '@/modules/auth/state/auth.slice';
 import userReducer from '@/modules/user/state/user.slice';
 
-const middlewares: Middleware[] = [];
+import { AuthQueryService, GoogleAuthQueryService } from '@/modules/auth/query';
+
+const middlewares: Middleware[] = [
+	AuthQueryService.middleware,
+	GoogleAuthQueryService.middleware,
+];
 const reducers = {
 	// main reducer
 	auth: authReducer,
 	user: userReducer,
 
 	// query service reducer
+	[AuthQueryService.reducerPath]: AuthQueryService.reducer,
+	[GoogleAuthQueryService.reducerPath]: GoogleAuthQueryService.reducer,
 };
 
 const store = configureStore({

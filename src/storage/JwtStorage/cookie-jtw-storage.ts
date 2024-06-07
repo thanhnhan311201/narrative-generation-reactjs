@@ -7,7 +7,7 @@ export class CookieJwtStorage implements IJwtStorage {
 		private expirationTime: number,
 	) {}
 
-	set(token: string): void {
+	public set(token: string): void {
 		if (!token) {
 			return;
 		}
@@ -18,7 +18,7 @@ export class CookieJwtStorage implements IJwtStorage {
 		document.cookie = `${this.tokenType}=${token}; expires=${expires}; path=/`;
 	}
 
-	get(): string {
+	public get(): string {
 		const token = getCookieValue(this.tokenType);
 		if (!token) {
 			return '';
@@ -27,7 +27,7 @@ export class CookieJwtStorage implements IJwtStorage {
 		return token;
 	}
 
-	delete(): void {
+	public delete(): void {
 		document.cookie = `${this.tokenType}= ; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 	}
 }

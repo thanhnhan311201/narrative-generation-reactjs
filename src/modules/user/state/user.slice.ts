@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IUser } from '../@types/user.interface';
+import { User } from '../@types/user.type';
 
 interface UserSliceState {
-	userInfo: IUser | null;
+	userInfo: User | null;
 }
 
 const SLICE_NAME = 'user';
@@ -19,7 +19,7 @@ const userSlice = createSlice({
 		setUser: (
 			state,
 			action: {
-				payload: IUser;
+				payload: User;
 				type: string;
 			},
 		) => ({

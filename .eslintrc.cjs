@@ -60,6 +60,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'warn',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
   settings: {
     react: {
