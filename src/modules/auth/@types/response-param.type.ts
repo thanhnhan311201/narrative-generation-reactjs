@@ -1,16 +1,15 @@
 import { CommonResponse } from '@/modules/common/@types';
 
 // signup response param
-export interface SignupResponseParam extends CommonResponse {}
+export type SignupResponseParams = CommonResponse;
 
 // signin response param
-export interface SigninResponseParam {
-	status: string;
+export type SigninResponseParams = CommonResponse & {
 	data: {
 		accessToken: string;
 		refreshToken: string;
 	};
-}
+};
 
 // signin with google response param
-export interface SigninWithGoogleResponseParam extends SigninResponseParam {}
+export type SigninWithGoogleResponseParams = SigninResponseParams;

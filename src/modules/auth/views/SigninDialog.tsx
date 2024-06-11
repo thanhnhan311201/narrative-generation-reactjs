@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
 
@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 
 import { useAppSelector, useAppDispatch } from '@/store';
-import { closeSigninDialog, setAuthenticated } from '../state/auth.slice';
+import { setAuthenticated } from '../state/auth.slice';
+import { closeSigninDialog } from '@/modules/common/state/dialog.slice';
 import { useSigninWithGoogleMutation } from '../query';
 import { WebSocketClient } from '@/network/websocket';
 
@@ -19,9 +20,8 @@ import { updateCredentialTokens } from '../helpers';
 import { GOOGLE_REDIRECT_URI, WEBSOCKET_URL } from '@/config/env';
 
 const SigninDialog: React.FC = () => {
-	const { authStatus, isOpenSigninDialog } = useAppSelector(
-		(state) => state.auth,
-	);
+	const { authStatus } = useAppSelector((state) => state.auth);
+	const { isSigninDialogOpen } = useAppSelector((state) => state.dialog);
 
 	const [
 		signinWithGoogle,
@@ -65,9 +65,9 @@ const SigninDialog: React.FC = () => {
 		redirect_uri: GOOGLE_REDIRECT_URI,
 	});
 
-	const handleCloseSigninDialog = () => {
+	const handleCloseSigninDialog = useCallback(() => {
 		dispatch(closeSigninDialog());
-	};
+	}, []);
 
 	useEffect(() => {
 		if (
@@ -85,13 +85,13 @@ const SigninDialog: React.FC = () => {
 					signinWithGoogleResponse.data.accessToken,
 					signinWithGoogleResponse.data.refreshToken,
 				);
-				WebSocketClient.initialize(
-					WEBSOCKET_URL,
+
+				WebSocketClient.getInstance().connect(
 					signinWithGoogleResponse.data.accessToken,
 				);
-				WebSocketClient.getInstance().connect();
 
 				dispatch(setAuthenticated());
+				dispatch(closeSigninDialog());
 			}
 		}
 	}, [
@@ -106,7 +106,7 @@ const SigninDialog: React.FC = () => {
 		<Dialog
 			isOpen={
 				authStatus !== AUTHENTICATION_STATUS.AUTHENTICATED &&
-				isOpenSigninDialog === true
+				isSigninDialogOpen === true
 			}
 			onClose={handleCloseSigninDialog}
 		>

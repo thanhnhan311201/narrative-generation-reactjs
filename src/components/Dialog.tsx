@@ -49,7 +49,7 @@ const Dialog: React.FC<{
 								exit={{ opacity: 0 }}
 								transition={{ duration: 0.25 }}
 								onClick={onClose}
-								className="bg-overlay-color fixed inset-0"
+								className="fixed inset-0 bg-overlay-color"
 								aria-hidden="true"
 							/>
 							<motion.div
@@ -64,7 +64,7 @@ const Dialog: React.FC<{
 								{children}
 								{isDisplayCloseBtn && (
 									<button
-										className="fill-modal__close-btn-fill-color hover:fill-modal__close-btn-fill-hover-color bg-modal__close-btn-bg-color absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full"
+										className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-modal__close-btn-bg-color fill-modal__close-btn-fill-color hover:fill-modal__close-btn-fill-hover-color"
 										onClick={onClose}
 									>
 										<IconContext.Provider

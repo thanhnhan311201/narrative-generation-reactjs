@@ -1,4 +1,4 @@
 // common response param
-export interface CommonResponse {
+export type CommonResponse = {
 	status: string;
-}
+};

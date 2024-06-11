@@ -7,7 +7,12 @@ const gatewayServiceInstance = GatewayService.getInstance();
 
 export const establishSocketListener = (socketClient: IWebsocketClient) => {
 	socketClient.on(
-		SOCKET_EVENTS.ON_RECEIVE_NEW_CONNECTION,
+		SOCKET_EVENTS.NEW_CONNECTION,
 		gatewayServiceInstance.handleNewConnection,
+	);
+
+	socketClient.on(
+		SOCKET_EVENTS.CONVERSATION_CREATE,
+		gatewayServiceInstance.handleNewConversation,
 	);
 };

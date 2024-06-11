@@ -4,14 +4,12 @@ import { AUTHENTICATION_STATUS } from '../utils';
 
 interface AuthSliceState {
 	authStatus: AUTHENTICATION_STATUS;
-	isOpenSigninDialog: boolean;
 }
 
 const SLICE_NAME = 'auth';
 
 const initialState: AuthSliceState = {
 	authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
-	isOpenSigninDialog: false,
 };
 
 const authSlice = createSlice({
@@ -30,24 +28,11 @@ const authSlice = createSlice({
 			...state,
 			authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
 		}),
-		openSigninDialog: (state) => ({
-			...state,
-			isOpenSigninDialog: true,
-		}),
-		closeSigninDialog: (state) => ({
-			...state,
-			isOpenSigninDialog: false,
-		}),
 	},
 });
 
-export const {
-	setAuthenticated,
-	setUnauthenticated,
-	authenticating,
-	closeSigninDialog,
-	openSigninDialog,
-} = authSlice.actions;
+export const { setAuthenticated, setUnauthenticated, authenticating } =
+	authSlice.actions;
 
 const authReducer = authSlice.reducer;
 export default authReducer;

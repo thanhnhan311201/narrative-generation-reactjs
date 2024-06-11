@@ -1,12 +1,12 @@
 import { HttpClient } from '@/network/http';
 
 import type {
-	IGoogleService,
-	SigninWithGoogleRequestParam,
-	SigninWithGoogleResponseParam,
+	IGoogleAuthService,
+	SigninWithGoogleRequestParams,
+	SigninWithGoogleResponseParams,
 } from '../@types';
 
-export class GoogleAuthService implements IGoogleService {
+export class GoogleAuthService implements IGoogleAuthService {
 	private static instance: GoogleAuthService | null = null;
 	private httpClientInstance: HttpClient;
 
@@ -23,9 +23,9 @@ export class GoogleAuthService implements IGoogleService {
 		return GoogleAuthService.instance;
 	}
 
-	public signinWithGoogle = (params: SigninWithGoogleRequestParam) => {
+	public signin = (params: SigninWithGoogleRequestParams) => {
 		const url = '/auth/google';
-		return this.httpClientInstance.post<SigninWithGoogleResponseParam>(
+		return this.httpClientInstance.post<SigninWithGoogleResponseParams>(
 			url,
 			params,
 		);

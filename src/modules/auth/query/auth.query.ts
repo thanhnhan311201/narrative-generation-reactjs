@@ -4,8 +4,12 @@ import axiosBaseQuery from '@/network/query';
 
 import { AuthService } from '../services';
 
-import type { SignUpRequestParam, SigninRequestParam } from '../@types';
-import type { SigninResponseParam, SignupResponseParam } from '../@types';
+import type {
+	SignUpRequestParams,
+	SigninRequestParams,
+	SigninResponseParams,
+	SignupResponseParams,
+} from '../@types';
 
 export const AuthQueryService = createApi({
 	reducerPath: 'authQuery',
@@ -16,10 +20,10 @@ export const AuthQueryService = createApi({
 
 const authQueryApi = AuthQueryService.injectEndpoints({
 	endpoints: (build) => ({
-		signin: build.mutation<SigninResponseParam, SigninRequestParam>({
-			async queryFn(arg: SigninRequestParam) {
+		signin: build.mutation<SigninResponseParams, SigninRequestParams>({
+			async queryFn(arg: SigninRequestParams) {
 				try {
-					const res = await AuthService.getInstance().siginin(arg);
+					const res = await AuthService.getInstance().signin(arg);
 					return { data: res };
 				} catch (error) {
 					return { error };
@@ -27,8 +31,8 @@ const authQueryApi = AuthQueryService.injectEndpoints({
 			},
 		}),
 
-		signup: build.mutation<SignupResponseParam, SignUpRequestParam>({
-			async queryFn(arg: SignUpRequestParam) {
+		signup: build.mutation<SignupResponseParams, SignUpRequestParams>({
+			async queryFn(arg: SignUpRequestParams) {
 				try {
 					const res = await AuthService.getInstance().signup(arg);
 					return { data: res };

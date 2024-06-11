@@ -1,1 +1,1 @@
-export * from './useAutoSignin.hook';
+export * from './useAutoSignin';

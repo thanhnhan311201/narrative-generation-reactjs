@@ -34,7 +34,7 @@ const conversationSlice = createSlice({
 			},
 		) => ({
 			...state,
-			conversations: state.conversations.concat(action.payload),
+			conversations: [action.payload, ...state.conversations.concat()],
 		}),
 		removeConversation: (
 			state,
@@ -51,11 +51,19 @@ const conversationSlice = createSlice({
 				conversations: finalConversations,
 			};
 		},
+		resetConversations: (state) => ({
+			...state,
+			conversations: [],
+		}),
 	},
 });
 
-export const { addConversation, removeConversation, setConversations } =
-	conversationSlice.actions;
+export const {
+	addConversation,
+	removeConversation,
+	setConversations,
+	resetConversations,
+} = conversationSlice.actions;
 
 const conversationReducer = conversationSlice.reducer;
 export default conversationReducer;

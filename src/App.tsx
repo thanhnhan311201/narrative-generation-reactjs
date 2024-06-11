@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import AppRoutes from './pages/routes';
 
-import useAutoSignin from './modules/auth/hooks/useAutoSignin.hook';
+import useAutoSignin from './modules/auth/hooks/useAutoSignin';
 
 function App() {
 	const autoSignin = useAutoSignin();

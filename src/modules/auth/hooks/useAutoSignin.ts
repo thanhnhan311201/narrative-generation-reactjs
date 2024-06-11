@@ -14,6 +14,9 @@ import { AuthService } from '../services';
 
 import { removeCredentialToken } from '../helpers';
 import { WEBSOCKET_URL } from '@/config/env';
+import { CLIENT_ID } from '@/utils/constants';
+import { removeUser } from '@/modules/user/state/user.slice';
+import { resetConversations } from '@/modules/conversation/state/conversation.slice';
 
 const useAutoSignin = () => {
 	const dispatch = useAppDispatch();
@@ -31,16 +34,21 @@ const useAutoSignin = () => {
 				}
 
 				dispatch(setAuthenticated());
-				WebSocketClient.initialize(WEBSOCKET_URL, accessToken);
-				WebSocketClient.getInstance().connect();
+				WebSocketClient.getInstance().connect(accessToken);
 			} else {
 				dispatch(setUnauthenticated());
+				dispatch(removeUser());
+				dispatch(resetConversations());
 				removeCredentialToken();
+				localStorage.removeItem(CLIENT_ID);
 			}
 		} catch (error: any) {
 			toast.error(error.message);
 			dispatch(setUnauthenticated());
+			dispatch(removeUser());
+			dispatch(resetConversations());
 			removeCredentialToken();
+			localStorage.removeItem(CLIENT_ID);
 		}
 	}, [dispatch]);
 };

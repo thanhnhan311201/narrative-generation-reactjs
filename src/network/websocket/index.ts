@@ -3,60 +3,37 @@ import { SocketIoClient } from './socketIO';
 import { establishSocketListener } from '@/modules/gateway/gateway.controller';
 
 import { IWebsocketClient } from './@types';
+import { CLIENT_ID } from '@/utils/constants';
+import { WEBSOCKET_URL } from '@/config/env';
 
 export class WebSocketClient implements IWebsocketClient {
 	private static instance: WebSocketClient | null = null;
-	private static url: string | null = null;
-	private static token: string | null = null;
-	private client: IWebsocketClient;
-	private _clientId: string | null = null;
+	private readonly client: IWebsocketClient;
 
 	private constructor(client: IWebsocketClient) {
 		this.client = client;
 	}
 
-	public static initialize(url: string, token: string): void {
-		WebSocketClient.url = url;
-		WebSocketClient.token = token;
-	}
-
-	public get clientId(): string | null {
-		return this._clientId;
-	}
-
-	public set clientId(newId: string) {
-		this._clientId = newId;
-	}
-
 	public static getInstance(): WebSocketClient {
 		if (!WebSocketClient.instance) {
-			if (!WebSocketClient.url || !WebSocketClient.token) {
-				throw new Error(
-					'WebSocketClient is not initialized. Call initialize(url, token) first.',
-				);
-			} else {
-				const socketIoClient = new SocketIoClient(
-					WebSocketClient.url,
-					WebSocketClient.token,
-				);
-				WebSocketClient.instance = new WebSocketClient(socketIoClient);
-			}
+			const socketIoClient = new SocketIoClient();
+			WebSocketClient.instance = new WebSocketClient(socketIoClient);
 		}
 
 		return WebSocketClient.instance;
 	}
 
-	public connect(): void {
-		this.client.connect();
+	public connect(jwtToken: string, url?: string): void {
+		this.client.connect(jwtToken, url || WEBSOCKET_URL);
 		establishSocketListener(this.client);
 	}
 
 	public disconnect(): void {
 		this.client.disconnect();
+		localStorage.removeItem(CLIENT_ID);
 	}
 
 	public on(event: string, callback: (...args: any[]) => void): void {
-		console.log('on');
 		this.client.on(event, callback);
 	}
 

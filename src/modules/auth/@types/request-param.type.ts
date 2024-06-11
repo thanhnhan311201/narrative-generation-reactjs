@@ -1,18 +1,18 @@
 // signin request param
-export interface SigninRequestParam {
+export type SigninRequestParams = {
 	email: string;
 	password: string;
-}
+};
 
 // signup request param
-export interface SignUpRequestParam {
+export type SignUpRequestParams = {
 	email: string;
 	username: string;
 	password: string;
 	confirmPassword: string;
-}
+};
 
 // signin with google request param
-export interface SigninWithGoogleRequestParam {
+export type SigninWithGoogleRequestParams = {
 	authCode: string;
-}
+};

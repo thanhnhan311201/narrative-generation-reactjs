@@ -2,10 +2,10 @@ import { HttpClient } from '@/network/http';
 
 import type {
 	IAuthService,
-	SigninRequestParam,
-	SignUpRequestParam,
-	SigninResponseParam,
-	SignupResponseParam,
+	SigninRequestParams,
+	SignUpRequestParams,
+	SigninResponseParams,
+	SignupResponseParams,
 } from '../@types';
 import type { CommonResponse } from '@/modules/common/@types';
 
@@ -26,14 +26,14 @@ export class AuthService implements IAuthService {
 		return AuthService.instance;
 	}
 
-	public siginin = (params: SigninRequestParam) => {
+	public signin = (params: SigninRequestParams) => {
 		const url = '/auth/signin';
-		return this.httpClientInstance.post<SigninResponseParam>(url, params);
+		return this.httpClientInstance.post<SigninResponseParams>(url, params);
 	};
 
-	public signup = (params: SignUpRequestParam) => {
+	public signup = (params: SignUpRequestParams) => {
 		const url = '/auth/signup';
-		return this.httpClientInstance.post<SignupResponseParam>(url, params);
+		return this.httpClientInstance.post<SignupResponseParams>(url, params);
 	};
 
 	public signout = () => {

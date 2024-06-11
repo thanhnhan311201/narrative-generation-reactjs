@@ -4,8 +4,10 @@ import axiosBaseQuery from '@/network/query';
 
 import { GoogleAuthService } from '../services';
 
-import type { SigninWithGoogleRequestParam } from '../@types';
-import type { SigninWithGoogleResponseParam } from '../@types';
+import type {
+	SigninWithGoogleRequestParams,
+	SigninWithGoogleResponseParams,
+} from '../@types';
 
 export const GoogleAuthQueryService = createApi({
 	reducerPath: 'googleAuthQuery',
@@ -17,13 +19,12 @@ export const GoogleAuthQueryService = createApi({
 const googleAuthQueryApi = GoogleAuthQueryService.injectEndpoints({
 	endpoints: (build) => ({
 		signinWithGoogle: build.mutation<
-			SigninWithGoogleResponseParam,
-			SigninWithGoogleRequestParam
+			SigninWithGoogleResponseParams,
+			SigninWithGoogleRequestParams
 		>({
-			async queryFn(arg: SigninWithGoogleRequestParam) {
+			async queryFn(arg: SigninWithGoogleRequestParams) {
 				try {
-					const res =
-						await GoogleAuthService.getInstance().signinWithGoogle(arg);
+					const res = await GoogleAuthService.getInstance().signin(arg);
 					return { data: res };
 				} catch (error) {
 					return { error };

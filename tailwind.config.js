@@ -10,8 +10,8 @@ export default {
         // for theme config
         'main-bg': "rgba(20, 23, 24)",
         'content-bg': "rgba(35, 38, 39)",
-        'main-text-color': "rgba(52, 56, 57)",
-        'border-color': "rgba(254, 254, 254)",
+        'main-text-color': "rgba(254, 254, 254)",
+        'border-color': "rgba(52, 56, 57)",
         'overlay-color': "rgba(35, 38, 39, 0.9)",
     
         // for modal

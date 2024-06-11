@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { FaRegPenToSquare } from 'react-icons/fa6';
-import { IconContext } from 'react-icons';
-
 import UserProfile from '@/modules/user/views/UserProfile';
 import ConversationList from '@/modules/conversation/views/ConversationList';
 import SigninContainer from '@/modules/auth/views/SigninContainer';
+import CreateConversationButton from '@/modules/conversation/components/CreateConversationButton';
 
 const SideMenu: React.FC = () => {
 	return (
@@ -25,22 +23,10 @@ const SideMenu: React.FC = () => {
 						StoryMe
 					</span>
 				</a>
-				<button className="group">
-					<IconContext.Provider
-						value={{
-							style: {
-								verticalAlign: 'middle',
-								width: '1.5rem',
-								height: '1.5rem',
-							},
-						}}
-					>
-						<FaRegPenToSquare className="fill-grey transition-colors group-hover:fill-white--1" />
-					</IconContext.Provider>
-				</button>
+				<CreateConversationButton key="create-conversation" />
 			</div>
 			<div className="w-full grow overflow-hidden">
-				<ConversationList />
+				<ConversationList key="conversations" />
 			</div>
 			<UserProfile key="user-profile" />
 			<SigninContainer key="signin-container" />

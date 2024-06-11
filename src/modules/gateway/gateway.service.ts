@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify';
 
-import { WebSocketClient } from '@/network/websocket';
-
 import { dispatch } from '@/store';
 import { setUser } from '../user/state/user.slice';
+import { User } from '../user/@types/user.type';
 
 import { IGatewayService } from './@types';
-import { User } from '../user/@types/user.type';
+import { CLIENT_ID } from '@/utils/constants';
+import { Conversation } from '../conversation/@types';
+import { addConversation } from '../conversation/state/conversation.slice';
 
 export class GatewayService implements IGatewayService {
 	private static instance: GatewayService | null = null;
@@ -33,6 +34,11 @@ export class GatewayService implements IGatewayService {
 		if (payload.userInfo) {
 			dispatch(setUser(payload.userInfo));
 		}
-		WebSocketClient.getInstance().clientId = payload.clientId;
+
+		localStorage.setItem(CLIENT_ID, payload.clientId);
+	};
+
+	public handleNewConversation = (payload: Conversation) => {
+		dispatch(addConversation(payload));
 	};
 }
