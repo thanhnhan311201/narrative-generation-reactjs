@@ -1,0 +1,37 @@
+import React from 'react';
+
+import { motion } from 'framer-motion';
+
+const AnswerLoading: React.FC = () => {
+	return (
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ duration: 0.25 }}
+			className="max-w-[50rem]"
+		>
+			<div className="prose max-w-none space-y-4 rounded-[1.25rem] bg-main-bg px-6 pb-16 pt-6 text-white prose-headings:text-white prose-strong:text-white">
+				<div className="flex space-x-1.5">
+					<div className="h-2 w-2 animate-[loaderDots_0.6s_0s_infinite_alternate] rounded-full bg-white"></div>
+					<div className="h-2 w-2 animate-[loaderDots_0.6s_0.3s_infinite_alternate] rounded-full bg-white"></div>
+					<div className="h-2 w-2 animate-[loaderDots_0.6s_0.6s_infinite_alternate] rounded-full bg-white"></div>
+				</div>
+			</div>
+			<div className="-mt-8 flex items-end justify-start pl-6">
+				<div className="relative h-16 w-16 overflow-hidden rounded-2xl shadow-[0_0_0_0.25rem_#232627]">
+					<img
+						className="inline-block w-full object-cover align-top"
+						src="/images/system.webp"
+						alt="system"
+						referrerPolicy="no-referrer"
+						crossOrigin="anonymous"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</motion.div>
+	);
+};
+
+export default AnswerLoading;

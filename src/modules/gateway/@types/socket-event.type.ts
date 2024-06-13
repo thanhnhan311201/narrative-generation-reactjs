@@ -5,4 +5,8 @@ export enum SOCKET_EVENTS {
 
 	// conversation events
 	CONVERSATION_CREATE = 'conversation:create',
+
+	// prompt events
+	PROMPT_CREATE = 'prompt:create',
+	ANSWER_CREATE = 'answer:create',
 }

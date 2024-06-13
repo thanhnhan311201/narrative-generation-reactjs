@@ -6,8 +6,11 @@ import { User } from '../user/@types/user.type';
 
 import { IGatewayService } from './@types';
 import { CLIENT_ID } from '@/utils/constants';
-import { Conversation } from '../conversation/@types';
-import { addConversation } from '../conversation/state/conversation.slice';
+import { Answer, Conversation, Prompt } from '../conversation/@types';
+import {
+	addConversation,
+	addDisplayContent,
+} from '../conversation/state/conversation.slice';
 
 export class GatewayService implements IGatewayService {
 	private static instance: GatewayService | null = null;
@@ -41,4 +44,28 @@ export class GatewayService implements IGatewayService {
 	public handleNewConversation = (payload: Conversation) => {
 		dispatch(addConversation(payload));
 	};
+
+	public handleReceiveNewPrompt(payload: Prompt): void {
+		dispatch(
+			addDisplayContent({
+				id: payload.id,
+				content: payload.content,
+				type: 'prompt',
+				createAt: payload.createAt,
+				attachment: payload.attachment,
+			}),
+		);
+	}
+
+	public handleReceiveAnswer(payload: Answer): void {
+		dispatch(
+			addDisplayContent({
+				id: payload.id,
+				content: payload.content,
+				type: 'answer',
+				createAt: payload.createAt,
+				attachment: null,
+			}),
+		);
+	}
 }

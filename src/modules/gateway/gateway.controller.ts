@@ -1,18 +1,39 @@
 import { GatewayService } from './gateway.service';
 
-import { SOCKET_EVENTS } from './@types';
-import { IWebsocketClient } from '@/network/websocket/@types';
+import type { User } from '../user/@types/user.type';
+import type { Answer, Conversation, Prompt } from '../conversation/@types';
 
 const gatewayServiceInstance = GatewayService.getInstance();
 
-export const establishSocketListener = (socketClient: IWebsocketClient) => {
-	socketClient.on(
-		SOCKET_EVENTS.NEW_CONNECTION,
-		gatewayServiceInstance.handleNewConnection,
-	);
+export class GatewayController {
+	private static instance: GatewayController | null = null;
 
-	socketClient.on(
-		SOCKET_EVENTS.CONVERSATION_CREATE,
-		gatewayServiceInstance.handleNewConversation,
-	);
-};
+	private constructor() {}
+
+	public static getInstance(): GatewayController {
+		if (!GatewayController.instance) {
+			GatewayController.instance = new GatewayController();
+		}
+
+		return GatewayController.instance;
+	}
+
+	public handleNewConnection = (payload: {
+		userInfo: User | null;
+		clientId: string;
+	}) => {
+		gatewayServiceInstance.handleNewConnection(payload);
+	};
+
+	public handleNewConversation = (payload: Conversation) => {
+		gatewayServiceInstance.handleNewConversation(payload);
+	};
+
+	public handlePromptCreated = (payload: Prompt) => {
+		gatewayServiceInstance.handleReceiveNewPrompt(payload);
+	};
+
+	public handleReceiveAnswer = (payload: Answer) => {
+		gatewayServiceInstance.handleReceiveAnswer(payload);
+	};
+}

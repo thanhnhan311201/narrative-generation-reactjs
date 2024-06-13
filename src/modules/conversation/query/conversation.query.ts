@@ -6,6 +6,7 @@ import { ConversationService } from '../services';
 
 import type {
 	CreateConversationRequestParams,
+	CreatePromptRequestParams,
 	GetConversationContentRequestParams,
 	GetConversationContentResponseParams,
 	GetConversationsResponseParams,
@@ -62,6 +63,17 @@ const conversationServiceApi = ConversationQueryService.injectEndpoints({
 				}
 			},
 		}),
+
+		createPrompt: build.mutation<CommonResponse, CreatePromptRequestParams>({
+			async queryFn(arg: CreatePromptRequestParams) {
+				try {
+					const res = await ConversationService.getInstance().createPrompt(arg);
+					return { data: res };
+				} catch (error) {
+					return { error };
+				}
+			},
+		}),
 	}),
 });
 
@@ -69,4 +81,6 @@ export const {
 	useCreateConversationMutation,
 	useLazyGetConversationContentQuery,
 	useLazyGetConversationsQuery,
+	useGetConversationsQuery,
+	useCreatePromptMutation,
 } = conversationServiceApi;

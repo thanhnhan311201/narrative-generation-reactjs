@@ -37,7 +37,7 @@ const CreateConversationDialog: React.FC = () => {
 			title.setIsTouched();
 
 			if (!title.isValid) {
-				title.inputRef.current!.focus();
+				title.inputRef.current.focus();
 				return;
 			}
 
@@ -47,6 +47,7 @@ const CreateConversationDialog: React.FC = () => {
 				error?.message ||
 					'There was an error during conversation creation. Please try again.',
 			);
+			title.inputRef.current.focus();
 		}
 	};
 

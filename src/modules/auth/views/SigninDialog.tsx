@@ -17,7 +17,7 @@ import Dialog from '@/components/Dialog';
 
 import { AUTHENTICATION_STATUS } from '../utils';
 import { updateCredentialTokens } from '../helpers';
-import { GOOGLE_REDIRECT_URI, WEBSOCKET_URL } from '@/config/env';
+import { GOOGLE_REDIRECT_URI } from '@/config/env';
 
 const SigninDialog: React.FC = () => {
 	const { authStatus } = useAppSelector((state) => state.auth);

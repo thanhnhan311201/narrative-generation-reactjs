@@ -157,16 +157,20 @@ const validateValue = (
 	}
 };
 
-const useInput = (validateType: ValidationType, option?: validationOption) => {
+const useInput = (validateType?: ValidationType, option?: validationOption) => {
 	const [inputState, dispatch] = useReducer(inputStateReducer, initialState);
 	const [valResult, setValResult] = useState<{
 		isValid: boolean;
 		error: string | undefined;
 	}>({ isValid: false, error: 'This field must not be emty.' });
 
-	const inputRef = useRef<HTMLInputElement>(null);
+	const inputRef = useRef<any>(null);
 
 	useEffect(() => {
+		if (!validateType) {
+			return;
+		}
+
 		let inputTimer: NodeJS.Timeout;
 		if (inputState.isTouched && !inputState.isValidated) {
 			inputTimer = setTimeout(() => {
@@ -178,6 +182,10 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 	}, [inputState.value, inputState.isTouched, inputState.isValidated]);
 
 	useEffect(() => {
+		if (!validateType) {
+			return;
+		}
+
 		const res = validateValue(validateType, inputState.value, option?.password);
 		setValResult(res);
 	}, [inputState.value, validateType, option?.password]);

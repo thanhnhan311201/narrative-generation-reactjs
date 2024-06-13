@@ -3,6 +3,7 @@ import React from 'react';
 import SideMenu from './components/SideMenu';
 import SigninDialog from '@/modules/auth/views/SigninDialog';
 import CreateConversationDialog from '@/modules/conversation/views/CreateConversationDialog';
+import ConversationContent from '@/modules/conversation/views/ConversationContent';
 
 const HomePage: React.FC = () => {
 	return (
@@ -11,19 +12,7 @@ const HomePage: React.FC = () => {
 				<SideMenu key="side-menu" />
 				<div className="flex h-screen py-6">
 					<div className="relative max-w-full grow rounded-[1.25rem] bg-content-bg">
-						<div className="flex h-full w-full flex-col items-center justify-center">
-							<div className="h-12 w-12">
-								<img
-									src="/images/logo.svg"
-									alt="logo"
-									decoding="async"
-									loading="lazy"
-									className="w-full rounded-xl"
-									width={48}
-									height={48}
-								/>
-							</div>
-						</div>
+						<ConversationContent />
 					</div>
 				</div>
 			</main>

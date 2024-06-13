@@ -1,6 +1,7 @@
 import { CommonResponse } from '@/modules/common/@types';
 import {
 	CreateConversationRequestParams,
+	CreatePromptRequestParams,
 	GetConversationContentRequestParams,
 } from './request-param.interface';
 import {
@@ -16,4 +17,5 @@ export interface IConversationService {
 	getConversationContent(
 		params: GetConversationContentRequestParams,
 	): Promise<GetConversationContentResponseParams>;
+	createPrompt(params: CreatePromptRequestParams): Promise<CommonResponse>;
 }

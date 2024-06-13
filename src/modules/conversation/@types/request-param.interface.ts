@@ -5,3 +5,9 @@ export type CreateConversationRequestParams = {
 export type GetConversationContentRequestParams = {
 	id: string;
 };
+
+export type CreatePromptRequestParams = {
+	id: string;
+	content: string;
+	attachment: File | null;
+};

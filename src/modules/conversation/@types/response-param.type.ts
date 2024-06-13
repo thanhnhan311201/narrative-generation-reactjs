@@ -1,5 +1,5 @@
 import { CommonResponse } from '@/modules/common/@types';
-import { Conversation } from './conversation.type';
+import { Conversation, ConversationContent } from './conversation.type';
 
 export type GetConversationsResponseParams = CommonResponse & {
 	data: {
@@ -9,6 +9,6 @@ export type GetConversationsResponseParams = CommonResponse & {
 
 export type GetConversationContentResponseParams = CommonResponse & {
 	data: {
-		conversationContent: Conversation;
+		conversationContent: ConversationContent;
 	};
 };

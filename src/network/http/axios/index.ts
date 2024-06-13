@@ -60,10 +60,10 @@ export class AxiosHttpClient implements IHttpClient {
 
 	public async postForm<T>(
 		url: string,
-		formData: FormData,
+		data: any,
 		config?: AxiosRequestConfig,
 	): Promise<T> {
-		const response = await this.axiosInstance.post<any, T>(url, formData, {
+		const response = await this.axiosInstance.postForm<any, T>(url, data, {
 			...config,
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -75,10 +75,10 @@ export class AxiosHttpClient implements IHttpClient {
 
 	public async putForm<T>(
 		url: string,
-		formData: FormData,
+		data: any,
 		config?: AxiosRequestConfig,
 	): Promise<T> {
-		const response = await this.axiosInstance.put<any, T>(url, formData, {
+		const response = await this.axiosInstance.putForm<any, T>(url, data, {
 			...config,
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -90,10 +90,10 @@ export class AxiosHttpClient implements IHttpClient {
 
 	public async patchForm<T>(
 		url: string,
-		formData: FormData,
+		data: any,
 		config?: AxiosRequestConfig,
 	): Promise<T> {
-		const response = await this.axiosInstance.patch<any, T>(url, formData, {
+		const response = await this.axiosInstance.patchForm<any, T>(url, data, {
 			...config,
 			headers: {
 				'Content-Type': 'multipart/form-data',

@@ -39,27 +39,15 @@ export class HttpClient implements IHttpClient {
 		return this.httpClient.delete<T>(url, config);
 	}
 
-	public async postForm<T>(
-		url: string,
-		formData: FormData,
-		config?: any,
-	): Promise<T> {
-		return this.httpClient.postForm<T>(url, formData, config);
+	public async postForm<T>(url: string, data: any, config?: any): Promise<T> {
+		return this.httpClient.postForm<T>(url, data, config);
 	}
 
-	public async putForm<T>(
-		url: string,
-		formData: FormData,
-		config?: any,
-	): Promise<T> {
-		return this.httpClient.putForm<T>(url, formData, config);
+	public async putForm<T>(url: string, data: any, config?: any): Promise<T> {
+		return this.httpClient.putForm<T>(url, data, config);
 	}
 
-	public async patchForm<T>(
-		url: string,
-		formData: FormData,
-		config?: any,
-	): Promise<T> {
-		return this.httpClient.patchForm<T>(url, formData, config);
+	public async patchForm<T>(url: string, data: any, config?: any): Promise<T> {
+		return this.httpClient.patchForm<T>(url, data, config);
 	}
 }

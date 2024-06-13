@@ -45,6 +45,11 @@ const store = configureStore({
 // use for refetchOnFocus/refetchOnReconnect
 setupListeners(store.dispatch);
 
+export type ReducerAction<T> = {
+	type: string;
+	payload: T;
+};
+
 export type RootState = StateFromReducersMapObject<typeof reducers>;
 export type AppDispatch = typeof store.dispatch;
 

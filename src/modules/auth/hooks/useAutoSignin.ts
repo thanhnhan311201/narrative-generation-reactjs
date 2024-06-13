@@ -13,7 +13,6 @@ import {
 import { AuthService } from '../services';
 
 import { removeCredentialToken } from '../helpers';
-import { WEBSOCKET_URL } from '@/config/env';
 import { CLIENT_ID } from '@/utils/constants';
 import { removeUser } from '@/modules/user/state/user.slice';
 import { resetConversations } from '@/modules/conversation/state/conversation.slice';

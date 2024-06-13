@@ -1,6 +1,7 @@
 import { HttpClient } from '@/network/http';
 import {
 	CreateConversationRequestParams,
+	CreatePromptRequestParams,
 	GetConversationContentRequestParams,
 	GetConversationContentResponseParams,
 	GetConversationsResponseParams,
@@ -44,5 +45,11 @@ export class ConversationService implements IConversationService {
 	): Promise<GetConversationContentResponseParams> {
 		const url = baseUrl + '/' + params.id;
 		return this.httpClientIns.get<GetConversationContentResponseParams>(url);
+	}
+
+	createPrompt(params: CreatePromptRequestParams): Promise<CommonResponse> {
+		const { id, ...restParams } = params;
+		const url = baseUrl + '/' + id + '/prompt';
+		return this.httpClientIns.postForm<CommonResponse>(url, restParams);
 	}
 }
