@@ -1,17 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { IconContext } from 'react-icons';
 import { IoIosLogIn } from 'react-icons/io';
 import { motion } from 'framer-motion';
 
-import { useAppDispatch } from '@/store';
-import { openSigninDialog } from '@/modules/common/state/dialog.slice';
-
 const SigninContainer: React.FC = () => {
-	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleOpenSigninDialog = () => {
-		dispatch(openSigninDialog());
+		navigate('/signin', {
+			state: {
+				backgroundLocation: {
+					pathname: window.location.pathname,
+					search: window.location.search,
+					hash: window.location.hash,
+				},
+			},
+		});
 	};
 
 	return (

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
 
@@ -7,21 +8,18 @@ import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 
-import { useAppSelector, useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store';
 import { setAuthenticated } from '../state/auth.slice';
-import { closeSigninDialog } from '@/modules/common/state/dialog.slice';
 import { useSigninWithGoogleMutation } from '../query';
 import { WebSocketClient } from '@/network/websocket';
 
 import Dialog from '@/components/Dialog';
 
-import { AUTHENTICATION_STATUS } from '../utils';
 import { updateCredentialTokens } from '../helpers';
 import { GOOGLE_REDIRECT_URI } from '@/config/env';
 
 const SigninDialog: React.FC = () => {
-	const { authStatus } = useAppSelector((state) => state.auth);
-	const { isSigninDialogOpen } = useAppSelector((state) => state.dialog);
+	const navigate = useNavigate();
 
 	const [
 		signinWithGoogle,
@@ -66,7 +64,7 @@ const SigninDialog: React.FC = () => {
 	});
 
 	const handleCloseSigninDialog = useCallback(() => {
-		dispatch(closeSigninDialog());
+		navigate('/');
 	}, []);
 
 	useEffect(() => {
@@ -91,7 +89,7 @@ const SigninDialog: React.FC = () => {
 				);
 
 				dispatch(setAuthenticated());
-				dispatch(closeSigninDialog());
+				navigate('/');
 			}
 		}
 	}, [
@@ -103,13 +101,7 @@ const SigninDialog: React.FC = () => {
 	]);
 
 	return (
-		<Dialog
-			isOpen={
-				authStatus !== AUTHENTICATION_STATUS.AUTHENTICATED &&
-				isSigninDialogOpen === true
-			}
-			onClose={handleCloseSigninDialog}
-		>
+		<Dialog isOpen={true} onClose={handleCloseSigninDialog}>
 			<div className="w-96 rounded-3xl bg-modal p-8">
 				<div className="flex h-full w-full flex-col justify-start">
 					<div className="flex flex-col items-center justify-start gap-2 text-white">

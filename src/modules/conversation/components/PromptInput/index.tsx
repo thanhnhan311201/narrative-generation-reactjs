@@ -9,9 +9,11 @@ import useInput, { ValidationType } from '@/modules/common/hooks/useInput';
 
 import UploadButton from './UploadButton';
 import { toast } from 'react-toastify';
-import { FaCirclePause, FaFile, FaXmark } from 'react-icons/fa6';
+import { FaCirclePause } from 'react-icons/fa6';
 import { useCreatePromptMutation } from '../../query';
 import { isEmpty } from 'lodash';
+import FilePreview from './FilePreview';
+import { CacheFile } from '@/utils/cache-file';
 
 const PromptInput: React.FC<{ selectedConversationId: string | null }> = ({
 	selectedConversationId,
@@ -23,8 +25,9 @@ const PromptInput: React.FC<{ selectedConversationId: string | null }> = ({
 	const [createPrompt, { isError, isSuccess, error, isLoading }] =
 		useCreatePromptMutation();
 
-	const handleUploadFile = useCallback((newFile: File | null) => {
+	const handleSetFile = useCallback((newFile: File | null) => {
 		setFile(newFile);
+		CacheFile.getInstance().file = newFile;
 	}, []);
 
 	const handleSubmitPrompt = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,7 +66,9 @@ const PromptInput: React.FC<{ selectedConversationId: string | null }> = ({
 		if (textarea) {
 			textarea.style.height = 'auto';
 			const numberOfRows = Math.ceil((textarea.scrollHeight - 48) / 24) + 1;
-			textarea.style.height = `${48 + (numberOfRows - 1) * 24}px`;
+			const renderedHeight = 48 + (numberOfRows - 1) * 24;
+			textarea.style.height =
+				renderedHeight > 208 ? '13rem' : `${renderedHeight}px`;
 		}
 	}, [prompt]);
 
@@ -87,56 +92,19 @@ const PromptInput: React.FC<{ selectedConversationId: string | null }> = ({
 				className="relative rounded-xl border-2 border-border-color"
 			>
 				<div className="relative flex min-h-[3.5rem] items-center px-16">
-					<UploadButton onUploadFile={handleUploadFile} allowUpload={!file} />
-					<div className="flex grow flex-col items-start justify-start gap-2">
+					<UploadButton onUploadFile={handleSetFile} allowUpload={!file} />
+					<div className="flex grow flex-col items-start justify-start gap-3">
 						<AnimatePresence>
 							{file && (
-								<div className="mt-3 flex items-center justify-start gap-4">
-									<motion.div
-										key={file.name}
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										exit={{ opacity: 0 }}
-										transition={{ duration: 0.25 }}
-										className="relative flex items-center gap-3 rounded-lg bg-main-bg py-4 pl-3 pr-10 font-['Inter'] text-lg font-semibold text-white"
-									>
-										<IconContext.Provider
-											value={{
-												className: 'fill-white',
-												style: {
-													verticalAlign: 'middle',
-													width: '1.5rem',
-													height: '1.5rem',
-												},
-											}}
-										>
-											<FaFile />
-										</IconContext.Provider>
-										<span>{file.type}</span>
-										<button
-											className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-modal__close-btn-bg-color fill-modal__close-btn-fill-color hover:fill-modal__close-btn-fill-hover-color"
-											onClick={() => setFile(null)}
-										>
-											<IconContext.Provider
-												value={{
-													className: 'transition-colors',
-													style: {
-														verticalAlign: 'middle',
-														width: '.75rem',
-														height: '.75rem',
-														fill: 'inherit',
-													},
-												}}
-											>
-												<FaXmark />
-											</IconContext.Provider>
-										</button>
-									</motion.div>
-								</div>
+								<FilePreview
+									key="file-preview"
+									file={file}
+									onResetFile={() => handleSetFile(null)}
+								/>
 							)}
 						</AnimatePresence>
 						<textarea
-							className="max-h-52 w-full shrink-0 resize-none bg-transparent py-3 text-base text-white outline-none placeholder:text-grey"
+							className="max-h-52 w-full shrink-0 resize-none overflow-y-auto scroll-smooth bg-transparent py-3 text-base text-white outline-none placeholder:text-grey"
 							value={prompt.value}
 							onChange={prompt.handleValueChange}
 							onBlur={prompt.handleInputBlur}

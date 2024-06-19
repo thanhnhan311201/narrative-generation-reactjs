@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { motion } from 'framer-motion';
+import { FileStorage } from '@/storage/indexDB';
 
 type PromptProps = {
 	userProfilePhoto: string;

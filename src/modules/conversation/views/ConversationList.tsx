@@ -53,7 +53,7 @@ const ConversationList: React.FC = () => {
 			animate={{ opacity: 1, x: 0 }}
 			exit={{ opacity: 0, x: -50 }}
 			transition={{ duration: 0.25 }}
-			className="flex w-full grow flex-col items-start justify-start overflow-hidden pb-2"
+			className="flex h-full w-full grow flex-col items-start justify-start pb-2"
 		>
 			<div className="font-base w-full shrink-0 px-5 py-4 text-left text-grey/75">
 				Conversations

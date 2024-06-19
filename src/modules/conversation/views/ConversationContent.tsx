@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { motion } from 'framer-motion';
 
@@ -28,6 +28,8 @@ import {
 import AnswerLoading from '../components/AnswerLoading';
 
 const ConversationContent: React.FC = () => {
+	const lastChatRef = useRef<HTMLDivElement>(null);
+
 	const { selectedConversationId } = useAppSelector(
 		(state) => state.conversation,
 	);
@@ -96,6 +98,10 @@ const ConversationContent: React.FC = () => {
 			}
 		}
 	}, [isError, isSuccess, error, data]);
+
+	useEffect(() => {
+		lastChatRef.current?.scrollIntoView({ behavior: 'instant' });
+	}, [displayContents]);
 
 	if (
 		authStatus !== AUTHENTICATION_STATUS.AUTHENTICATED ||
@@ -233,6 +239,7 @@ const ConversationContent: React.FC = () => {
 						)
 					)}
 					{isWaitingForAnswer && <AnswerLoading />}
+					<div ref={lastChatRef} />
 				</div>
 				<PromptInput selectedConversationId={selectedConversationId} />
 			</motion.div>

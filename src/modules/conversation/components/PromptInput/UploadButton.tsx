@@ -33,7 +33,7 @@ const UploadButton: React.FC<{
 				);
 				onUploadFile(null);
 			} else if (file.size > MAX_FILE_SIZE) {
-				toast.error('File size exceeds 5MB limit.');
+				toast.error('File size exceeds 10MB limit.');
 				onUploadFile(null);
 			} else {
 				onUploadFile(file);

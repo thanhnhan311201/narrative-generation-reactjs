@@ -11,6 +11,8 @@ import {
 	addConversation,
 	addDisplayContent,
 } from '../conversation/state/conversation.slice';
+import { CacheFile } from '@/utils/cache-file';
+import { FileStorage } from '@/storage/indexDB';
 
 export class GatewayService implements IGatewayService {
 	private static instance: GatewayService | null = null;
@@ -46,6 +48,18 @@ export class GatewayService implements IGatewayService {
 	};
 
 	public handleReceiveNewPrompt(payload: Prompt): void {
+		const file = CacheFile.getInstance().file;
+
+		if (file && !payload.attachment) {
+			toast.error(
+				'There was an error during creating prompt. Please try again.',
+			);
+			return;
+		} else if (file && payload.attachment) {
+			FileStorage.getInstance().storeFile(file, payload.attachment);
+			CacheFile.getInstance().file = null;
+		}
+
 		dispatch(
 			addDisplayContent({
 				id: payload.id,

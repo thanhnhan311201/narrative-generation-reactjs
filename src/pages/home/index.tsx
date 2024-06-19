@@ -1,7 +1,6 @@
 import React from 'react';
 
 import SideMenu from './components/SideMenu';
-import SigninDialog from '@/modules/auth/views/SigninDialog';
 import CreateConversationDialog from '@/modules/conversation/views/CreateConversationDialog';
 import ConversationContent from '@/modules/conversation/views/ConversationContent';
 
@@ -16,7 +15,6 @@ const HomePage: React.FC = () => {
 					</div>
 				</div>
 			</main>
-			<SigninDialog key="login-dialog" />
 			<CreateConversationDialog key="create-conversation-dialog" />
 		</>
 	);
