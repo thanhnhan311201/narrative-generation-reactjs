@@ -1,7 +1,7 @@
 import { type InternalAxiosRequestConfig, type AxiosResponse } from 'axios';
 import queryString from 'query-string';
 
-import { AccessTokenStorage } from '@/storage/JwtStorage';
+import { AccessTokenStorage } from '@/storage/jwt-storage';
 
 import { BASE_URL_API } from '@/config/env';
 import { CLIENT_ID, SOCKET_CLIENT_ID_HEADER } from '@/utils/constants';

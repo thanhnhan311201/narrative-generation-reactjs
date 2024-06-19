@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { useAppDispatch } from '@/store';
 import { WebSocketClient } from '@/network/websocket';
-import { AccessTokenStorage } from '@/storage/JwtStorage';
+import { AccessTokenStorage } from '@/storage/jwt-storage';
 import {
 	setUnauthenticated,
 	authenticating,

@@ -1,4 +1,4 @@
-import { AccessTokenStorage, RefreshTokenStorage } from '@/storage/JwtStorage';
+import { AccessTokenStorage, RefreshTokenStorage } from '@/storage/jwt-storage';
 
 export const updateCredentialTokens = (
 	accessToken: string,

@@ -12,7 +12,7 @@ import {
 	addDisplayContent,
 } from '../conversation/state/conversation.slice';
 import { CacheFile } from '@/utils/cache-file';
-import { FileStorage } from '@/storage/indexDB';
+import { FileStorage } from '@/storage/file-storage';
 
 export class GatewayService implements IGatewayService {
 	private static instance: GatewayService | null = null;

@@ -1,21 +1,14 @@
 import { readFileAsArrayBuffer } from '@/helpers/general.helper';
 import { Dexie, type EntityTable } from 'dexie';
 
-export interface StoredFile {
-	id: string;
-	name: string;
-	content: string;
-	size: number;
-	mimeType: string;
-}
+import type { StoredFile, IFileStorage } from './@types';
 
-export class FileStorage {
-	private static instance: FileStorage | null = null;
+export class IndexedDBFileStorage implements IFileStorage {
 	private readonly db: Dexie & {
 		files: EntityTable<StoredFile, 'id'>;
 	};
 
-	private constructor() {
+	constructor() {
 		this.db = new Dexie('FileDatabase') as Dexie & {
 			files: EntityTable<StoredFile, 'id'>;
 		};
@@ -24,15 +17,7 @@ export class FileStorage {
 		});
 	}
 
-	public static getInstance() {
-		if (FileStorage.instance === null) {
-			FileStorage.instance = new FileStorage();
-		}
-
-		return FileStorage.instance;
-	}
-
-	public async storeFile(file: File, key: string) {
+	public async storeFile(file: File, key: string): Promise<void> {
 		const arrayBuffer = await readFileAsArrayBuffer(file);
 		const buffer = Buffer.from(arrayBuffer);
 
@@ -45,15 +30,13 @@ export class FileStorage {
 		});
 	}
 
-	public async deleteFile(key: string) {
+	public async deleteFile(key: string): Promise<void> {
 		await this.db.files.delete(key);
-
-		return true;
 	}
 
-	public async getFile(key: string) {
+	public async getFile(key: string): Promise<StoredFile | null> {
 		const file = await this.db.files.get(key);
 
-		return file;
+		return file || null;
 	}
 }
