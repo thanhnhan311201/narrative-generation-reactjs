@@ -47,7 +47,7 @@ export class GatewayService implements IGatewayService {
 		dispatch(addConversation(payload));
 	};
 
-	public handleReceiveNewPrompt(payload: Prompt): void {
+	public async handleReceiveNewPrompt(payload: Prompt): Promise<void> {
 		const file = CacheFile.getInstance().file;
 
 		if (file && !payload.attachment) {
@@ -56,7 +56,7 @@ export class GatewayService implements IGatewayService {
 			);
 			return;
 		} else if (file && payload.attachment) {
-			FileStorage.getInstance().storeFile(file, payload.attachment);
+			await FileStorage.getInstance().storeFile(file, payload.attachment);
 			CacheFile.getInstance().file = null;
 		}
 

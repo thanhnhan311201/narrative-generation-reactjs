@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
@@ -6,23 +7,26 @@ import { motion } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { isEmpty } from 'lodash';
 import { useLazyGetConversationsQuery } from '../query';
-import {
-	selectConversationId,
-	setConversations,
-} from '../state/conversation.slice';
+import { setConversations } from '../state/conversation.slice';
 import { toast } from 'react-toastify';
 import { IconContext } from 'react-icons';
 import { BsThreeDots } from 'react-icons/bs';
 
 const ConversationList: React.FC = () => {
-	const { conversations, selectedConversationId } = useAppSelector(
-		(state) => state.conversation,
-	);
+	const { conversations } = useAppSelector((state) => state.conversation);
+
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const selectedConversationId = searchParams.get('conversation_id');
 
 	const dispatch = useAppDispatch();
 
 	const [getConversations, { data, error, isError, isSuccess }] =
 		useLazyGetConversationsQuery();
+
+	const handleSelectConversation = (id: string) => {
+		setSearchParams({ conversation_id: id });
+	};
 
 	useEffect(() => {
 		if (!isEmpty(error) || isError) {
@@ -79,9 +83,7 @@ const ConversationList: React.FC = () => {
 										? 'bg-gradient-to-l from-[#323337] to-[rgba(80,62,110,0.29)] text-white'
 										: '',
 								)}
-								onClick={() =>
-									dispatch(selectConversationId({ id: conversation.id }))
-								}
+								onClick={() => handleSelectConversation(conversation.id)}
 							>
 								<div className="grow overflow-hidden truncate text-left">
 									{conversation.title}

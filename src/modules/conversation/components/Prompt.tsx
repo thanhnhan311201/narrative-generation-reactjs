@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
+
+import { FileStorage } from '@/storage/file-storage';
+import { StoredFile } from '@/storage/file-storage/@types';
 
 type PromptProps = {
 	userProfilePhoto: string;
@@ -8,6 +11,23 @@ type PromptProps = {
 };
 
 const Prompt: React.FC<PromptProps> = ({ userProfilePhoto, prompt }) => {
+	const [file, setFile] = useState<StoredFile | null>(null);
+
+	useEffect(() => {
+		(async () => {
+			if (prompt && prompt.attachment) {
+				const storedFile = await FileStorage.getInstance().getFile(
+					prompt.attachment,
+				);
+
+				if (storedFile) {
+					console.log(storedFile);
+					setFile(storedFile);
+				}
+			}
+		})();
+	}, []);
+
 	return (
 		<motion.div
 			initial={{ opacity: 0 }}

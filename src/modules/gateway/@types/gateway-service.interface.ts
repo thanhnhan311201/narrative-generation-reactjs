@@ -11,6 +11,6 @@ export interface IGatewayService {
 		clientId: string;
 	}): void;
 	handleNewConversation(payload: Conversation): void;
-	handleReceiveNewPrompt(payload: Prompt): void;
+	handleReceiveNewPrompt(payload: Prompt): Promise<void>;
 	handleReceiveAnswer(payload: Answer): void;
 }

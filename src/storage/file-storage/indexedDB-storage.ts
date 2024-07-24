@@ -1,5 +1,7 @@
-import { readFileAsArrayBuffer } from '@/helpers/general.helper';
+import { Buffer } from 'buffer';
 import { Dexie, type EntityTable } from 'dexie';
+
+import { readFileAsArrayBuffer } from '@/helpers/general.helper';
 
 import type { StoredFile, IFileStorage } from './@types';
 
@@ -21,11 +23,11 @@ export class IndexedDBFileStorage implements IFileStorage {
 		const arrayBuffer = await readFileAsArrayBuffer(file);
 		const buffer = Buffer.from(arrayBuffer);
 
-		this.db.files.add({
+		await this.db.files.add({
 			name: file.name,
 			mimeType: file.type,
 			size: file.size,
-			content: buffer.toString('utf-8'),
+			content: buffer.toString('base64'),
 			id: key,
 		});
 	}

@@ -16,7 +16,6 @@ import { removeCredentialToken } from '@/modules/auth/helpers';
 import {
 	resetConversations,
 	resetDisplayContents,
-	selectConversationId,
 } from '@/modules/conversation/state/conversation.slice';
 
 const UserProfile: React.FC = () => {
@@ -31,7 +30,6 @@ const UserProfile: React.FC = () => {
 		dispatch(removeUser());
 		dispatch(resetConversations());
 		dispatch(resetDisplayContents());
-		dispatch(selectConversationId({ id: null }));
 		WebSocketClient.getInstance().disconnect();
 	};
 

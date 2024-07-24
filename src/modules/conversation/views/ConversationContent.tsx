@@ -1,15 +1,22 @@
 import React, { useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { motion } from 'framer-motion';
 
 import { IconContext } from 'react-icons';
 import { BsThreeDots } from 'react-icons/bs';
+import { LuPencil } from 'react-icons/lu';
+import { MdDelete } from 'react-icons/md';
+
+import { isEmpty } from 'lodash';
+import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from '@/store';
 import { useLazyGetConversationContentQuery } from '../query';
-
-import { LuPencil } from 'react-icons/lu';
-import { MdDelete } from 'react-icons/md';
+import {
+	resetDisplayContents,
+	setDisplayContents,
+} from '../state/conversation.slice';
 
 import PromptInput from '../components/PromptInput';
 import Prompt from '../components/Prompt';
@@ -18,26 +25,21 @@ import ConversationSkeleton from '@/modules/conversation/components/Conversation
 import TitleSkeleton from '../components/TitleSkeleton';
 
 import { AUTHENTICATION_STATUS } from '@/modules/auth/utils';
-import { isEmpty } from 'lodash';
-import { toast } from 'react-toastify';
 import { DisplayContent } from '../@types';
-import {
-	resetConversations,
-	setDisplayContents,
-} from '../state/conversation.slice';
 import AnswerLoading from '../components/AnswerLoading';
 
 const ConversationContent: React.FC = () => {
 	const lastChatRef = useRef<HTMLDivElement>(null);
 
-	const { selectedConversationId } = useAppSelector(
-		(state) => state.conversation,
-	);
 	const { authStatus } = useAppSelector((state) => state.auth);
 	const { userInfo } = useAppSelector((state) => state.user);
 	const { displayContents, isWaitingForAnswer } = useAppSelector(
 		(state) => state.conversation,
 	);
+
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const selectedConversationId = searchParams.get('conversation_id');
 
 	const dispatch = useAppDispatch();
 
@@ -54,6 +56,7 @@ const ConversationContent: React.FC = () => {
 			return;
 		}
 
+		dispatch(resetDisplayContents());
 		getConversationContent({ id: selectedConversationId });
 	}, [selectedConversationId, authStatus]);
 
@@ -63,39 +66,35 @@ const ConversationContent: React.FC = () => {
 				(error as Error)?.message ||
 					'There was an error during fetching conversation content. Please try again.',
 			);
-
-			dispatch(resetConversations());
 		}
 		if (isSuccess) {
-			if (!isEmpty(data)) {
-				const entireConversation: DisplayContent[] = [];
+			const entireConversation: DisplayContent[] = [];
 
-				data.data.conversationContent.prompts.forEach((prompt) => {
-					entireConversation.push({
-						id: prompt.id,
-						attachment: prompt.attachment,
-						content: prompt.content,
-						createAt: prompt.createAt,
-						type: 'prompt',
-					});
+			data.data.conversationContent.prompts.forEach((prompt) => {
+				entireConversation.push({
+					id: prompt.id,
+					attachment: prompt.attachment,
+					content: prompt.content,
+					createAt: prompt.createAt,
+					type: 'prompt',
 				});
+			});
 
-				data.data.conversationContent.answers.forEach((answer) => {
-					entireConversation.push({
-						id: answer.id,
-						attachment: null,
-						content: answer.content,
-						createAt: answer.createAt,
-						type: 'answer',
-					});
+			data.data.conversationContent.answers.forEach((answer) => {
+				entireConversation.push({
+					id: answer.id,
+					attachment: null,
+					content: answer.content,
+					createAt: answer.createAt,
+					type: 'answer',
 				});
+			});
 
-				entireConversation.sort(
-					(a, b) =>
-						new Date(a.createAt).getTime() - new Date(b.createAt).getTime(),
-				);
-				dispatch(setDisplayContents(entireConversation));
-			}
+			entireConversation.sort(
+				(a, b) =>
+					new Date(a.createAt).getTime() - new Date(b.createAt).getTime(),
+			);
+			dispatch(setDisplayContents(entireConversation));
 		}
 	}, [isError, isSuccess, error, data]);
 

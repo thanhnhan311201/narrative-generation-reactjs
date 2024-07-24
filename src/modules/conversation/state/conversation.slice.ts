@@ -5,7 +5,6 @@ import type { ReducerAction } from '@/store';
 
 interface ConversationSliceState {
 	conversations: Conversation[];
-	selectedConversationId: string | null;
 	displayContents: DisplayContent[];
 	isWaitingForAnswer: boolean;
 }
@@ -14,7 +13,6 @@ const SLICE_NAME = 'conversation';
 
 const initialState: ConversationSliceState = {
 	conversations: [],
-	selectedConversationId: null,
 	displayContents: [],
 	isWaitingForAnswer: false,
 };
@@ -45,14 +43,6 @@ const conversationSlice = createSlice({
 			conversations: [],
 		}),
 
-		selectConversationId: (
-			state,
-			action: ReducerAction<{ id: string | null }>,
-		) => ({
-			...state,
-			selectedConversationId: action.payload.id,
-		}),
-
 		setDisplayContents: (state, action: ReducerAction<DisplayContent[]>) => ({
 			...state,
 			displayContents: action.payload,
@@ -74,7 +64,6 @@ export const {
 	removeConversation,
 	setConversations,
 	resetConversations,
-	selectConversationId,
 	addDisplayContent,
 	resetDisplayContents,
 	setDisplayContents,
